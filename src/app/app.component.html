@@ -1,0 +1,127 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-md-6 col-md-offset-3">
+      <form #postForm="ngForm" (ngSubmit)="onCreatePost(postForm.value)">
+
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            required
+            ngModel
+            name="title"
+          />
+        </div>
+        <div class="form-group mb-2">
+          <label for="content">Content</label>
+          <textarea
+            class="form-control"
+            id="content"
+            required
+            ngModel
+            name="content"
+          ></textarea>
+        </div>
+        <button
+          class="btn btn-primary"
+          type="submit"
+          [disabled]="!postForm.valid"
+        >
+          Send Post
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-xs-12 col-md-6 col-md-offset-3">
+      <form #postFormEdit="ngForm" (ngSubmit)="onUpdatePosts(postFormEdit.value)">
+
+        <div class="form-group">
+          <label for="id">Id</label>
+          <input disabled="false"
+            type="text"
+            class="form-control"
+            id="id"
+            required
+            ngModel
+            name="id"
+            [ngModel]="id"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            required
+            ngModel
+            name="title"
+            [(ngModel)]="title"
+          />
+        </div>
+        <div class="form-group mb-2">
+          <label for="content">Content</label>
+          <textarea
+            class="form-control"
+            id="content"
+            required
+            ngModel
+            name="content"
+            [(ngModel)]="content"
+          ></textarea>
+        </div>
+        <button
+          class="btn btn-primary"
+          type="submit"
+          [disabled]="!postFormEdit.valid"
+        >
+          Update Data
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <hr />
+
+  <div class="row">
+    <div class="col-xs-12 col-md-6 col-md-offset-3">
+      <button class="btn btn-primary" (click)="onFetchPosts()">
+        Fetch Posts
+      </button>
+      |
+      <button class="btn btn-danger" (click)="onClearPosts()">
+        Clear Posts
+      </button>
+
+  </div>
+  </div>
+  <div class="row">
+    <div class="alert alert-danger" role="alert" *ngIf="error">
+      <h4 class="alert-heading">Error Occur!</h4>
+      <p>{{ error.message }}</p>
+    </div>
+
+
+    <div class="spinner-border" style="width: 6rem; height: 6rem;" role="status" *ngIf="showLoading && !error">
+    </div>
+    <span class="sr-only" *ngIf="showLoading && !error">Loading...</span>
+
+    <div class="col-xs-12 col-md-6 col-md-offset-3">
+      <p *ngIf="loadedPosts.length < 1 && !error">No posts available!</p>
+      <ul class="list-group" *ngIf="loadedPosts.length >= 1">
+        <li class="list-group-item" *ngFor="let post of loadedPosts">
+          <h3> <a style="cursor: pointer;" (click)="onClickPost(post)">{{ post.title }}</a> </h3>
+          <p>{{ post.content }}</p>
+          <!-- <button class="btn btn-danger" (click)="onDeletePost(post)">Delete</button> -->
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
